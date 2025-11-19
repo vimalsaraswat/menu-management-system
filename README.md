@@ -3,7 +3,7 @@
 A full-stack application for restaurant owners to manage digital menus and for customers to view them via shared links. Built with the T3 Stack (Next.js, TypeScript, tRPC, Tailwind CSS, Prisma), deployed on Vercel, and using PostgreSQL on Neon.
 
 ## Live Demo
-- Deployed App: [https://restaurant-menu-management.vercel.app/auth/login](https://restaurant-menu-management.vercel.app/auth/login)
+- Deployed App: [https://restaurant-menu-management.vercel.app](https://restaurant-menu-management.vercel.app)
 
 
 ## Quick Start
