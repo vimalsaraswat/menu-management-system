@@ -1,30 +1,56 @@
-# Create T3 App
+# Digital Menu Management System
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A full-stack application for restaurant owners to manage digital menus and for customers to view them via shared links. Built with the T3 Stack (Next.js, TypeScript, tRPC, Tailwind CSS, Prisma), deployed on Vercel, and using PostgreSQL on Neon.
 
-## What's next? How do I make an app with this?
+## Live Demo
+- Deployed App: [https://restaurant-menu-management.vercel.app/auth/login](https://restaurant-menu-management.vercel.app/auth/login)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Quick Start
+1. Clone the repo: `git clone https://github.com/yourusername/digital-menu-system.git`
+2. Install dependencies: `npm install`
+3. Set up environment variables (see `.env.example`):
+   - Database: Neon PostgreSQL URL
+   - SMTP: For email verification (e.g., Resend or Gmail)
+   - Redis: For OTP storage
+   - JWT_SECRET: For authentication
+4. Run migrations: `npm run db:migrate`
+5. Start dev server: `npm run dev`
+6. Access at `http://localhost:3000`
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Features
+- **User Auth**: Email-based registration/login with OTP verification (no passwords).
+- **Admin Dashboard**: Create/manage multiple restaurants, categories, and dishes (with multi-category support).
+- **Public Menu**: View-only interface for customers with fixed category headers and floating navigation.
+- **Responsive UI**: Built with shadcn/ui components and Tailwind CSS.
+- **Error Handling**: TRPC errors, form validation with Zod, and user feedback via toasts.
 
-## Learn More
+## Tech Stack
+- **Frontend**: Next.js 15 (App Router), React, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: tRPC, Prisma ORM
+- **Database**: PostgreSQL (Neon)
+- **Auth**: Custom JWT + OTP (Redis for storage, Nodemailer for emails)
+- **Deployment**: Vercel
+- **Other**: Superjson for data transformation, Sonner for toasts
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## File Structure
+```
+src/
+├── app/                 # Next.js pages and layouts
+├── components/          # UI components (auth, menu, dashboard)
+├── lib/                 # Utilities (JWT, Redis, Mail)
+├── server/              # API routers (tRPC), actions, DB
+└── trpc/                # tRPC setup and hooks
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Approach to Solving the Problem
+I started by initializing the T3 Stack via `create-t3-app` (skipping NextAuth as instructed). I designed the Prisma schema with relations: User → Restaurant → Category → Dish (many-to-many via DishCategory for multi-category dishes).
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+For auth, I implemented custom OTP-based flow using Redis for temporary storage and Nodemailer for emails. tRPC routers handle CRUD for restaurants, categories, and dishes with ownership checks (e.g., only the owner can edit their data). The public menu uses server-side rendering for SEO/performance.
 
-## How do I deploy this?
+UI follows shadcn/ui patterns: Forms with React Hook Form + Zod, and sticky/floating elements for the menu view. I prioritized type safety with TypeScript and end-to-end validation. Testing involved manual edge-case simulations in dev mode.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-# menu-management-system
+The project emphasizes modularity: Separate routers for each domain, shared utils, and clean separation of server/client code.
+
+## IDE Used
+Zed (a modern code editor designed for speed and collaboration).
