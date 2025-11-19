@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  country   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  restaurants Restaurant[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categories Category[]
+
+  @@map("restaurants")
+}
+
+model Category {
+  id           String @id @default(cuid())
+  name         String
+  order        Int    @default(0)
+  restaurantId String
+
+  restaurant Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  dishLinks  DishCategory[]
+
+  @@unique([restaurantId, name])
+  @@index([restaurantId, order])
+  @@map("categories")
+}
+
+model Dish {
+  id           String  @id @default(cuid())
+  name         String
+  price        Int
+  imageUrl     String?
+  description  String?
+  spiceLevel   String?
+  isVegetarian Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categories DishCategory[]
+
+  @@map("dishes")
+}
+
+model DishCategory {
+  dishId     String
+  categoryId String
+
+  dish     Dish     @relation(fields: [dishId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([dishId, categoryId])
+  @@map("dish_categories")
+}
