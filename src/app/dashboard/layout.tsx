@@ -32,7 +32,7 @@ export default async function DashboardLayout({
               action={async () => {
                 "use server";
                 await removeAuthCookie();
-                redirect("/login");
+                redirect("/auth/login");
               }}
             >
               <Button variant="ghost" size="sm">
