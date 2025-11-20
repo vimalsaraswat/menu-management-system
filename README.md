@@ -7,7 +7,7 @@ A full-stack application for restaurant owners to manage digital menus and for c
 
 
 ## Quick Start
-1. Clone the repo: `git clone https://github.com/yourusername/digital-menu-system.git`
+1. Clone the repo: `git clone https://github.com/vimalsaraswat/menu-management-system.git`
 2. Install dependencies: `npm install`
 3. Set up environment variables (see `.env.example`):
    - Database: Neon PostgreSQL URL
